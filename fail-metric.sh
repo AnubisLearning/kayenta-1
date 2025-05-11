@@ -3,18 +3,12 @@
 PUSHGATEWAY_URL="http://localhost:9091"
 JOB_NAME="cpu_metrics"
 
-CANARY_CPU=10  # Start at minimum value
-INCREMENT=1  # Step increase for each cycle
-MAX_CANARY_CPU=800
-
 while true; do
-  # Generate random baseline CPU usage
-  BASELINE_CPU=$(awk -v min=10 -v max=70 'BEGIN{srand(); print min+rand()*(max-min)}')
+  # Generate baseline value between 10 and 90
+  BASELINE_CPU=$(awk -v min=10 -v max=90 'BEGIN{srand(); val=min+rand()*(max-min); printf "%.2f", val}')
 
-  # Increase CANARY_CPU gradually
-  if [ "$CANARY_CPU" -lt "$MAX_CANARY_CPU" ]; then
-    CANARY_CPU=$((CANARY_CPU + INCREMENT))
-  fi
+  # Calculate canary as the opposite (100 - baseline), capped between 10 and 90
+  CANARY_CPU=$(awk -v base=$BASELINE_CPU 'BEGIN{val=100-base; if (val<10) val=10; if (val>90) val=90; printf "%.2f", val}')
 
   # Push metrics without timestamps
   echo "cpu_usage $BASELINE_CPU" | curl --silent --data-binary @- "$PUSHGATEWAY_URL/metrics/job/$JOB_NAME/instance/baseline"
