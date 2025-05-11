@@ -1,0 +1,29 @@
+steps:
+1. Run prometheus and gateway
+cd prom-config
+docker-compose up -d
+
+2. Run metrics dummy
+cd ..
+./dummy.sh &
+
+3. Run redis
+docker run -d -p 6379:6379 redis:latest
+
+4. Run Kayenta VM
+./kayenta-web/build/install/kayenta/bin/kayenta   --spring.config.location=file:/home/azureuser/.spinnaker/kayenta.yml
+
+5. Build kayenta image
+edit prometheus url in docker-kayenta.yml
+docker build -t kayenta:latest .
+
+6. Run Kayenta docker
+docker run -d -v /home/azureuser/vm-kayenta/docker-kayenta.yml:/opt/kayenta/config/kayenta.yml -p 8090:8090 -e services.redis.baseUrl=redis://172.201.121.1:6379 -e redis.connection=redis://172.201.121.1:6379 kayenta:latest
+
+7. Build referee
+cd referee
+Edit kayenta url in DOckerfile
+docker build -t referee:latest .
+
+8. Run referee
+docker run -d -p 3001:3001 referee:latest
