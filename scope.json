@@ -1,0 +1,33 @@
+{
+  "scopes": [
+    {
+      "scopeName": "exported_instance",
+      "controlScope": "baseline",
+      "controlLocation": "us-west-2",
+      "controlOffsetInMinutes": 10,
+      "experimentScope": "canary",
+      "experimentLocation": "us-west-2",
+      "startTimeIso": "2025-05-09T19:35:13Z",
+      "endTimeIso": "2025-05-09T22:35:13Z",
+      "step": 60,
+      "extendedScopeParams": {
+        "additionalProp1": "string",
+        "additionalProp2": "string",
+        "additionalProp3": "string"
+      }
+    }
+  ],
+  "thresholds": {
+    "pass": 75,
+    "marginal": 50
+  },
+  "lifetimeDurationMins": 0,
+  "beginAfterMins": 0,
+  "lookbackMins": 0,
+  "analysisIntervalMins": 0,
+  "siteLocal": {
+    "additionalProp1": {},
+    "additionalProp2": {},
+    "additionalProp3": {}
+  }
+}
