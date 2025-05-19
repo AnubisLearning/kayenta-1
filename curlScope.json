@@ -1,0 +1,37 @@
+curl -X 'POST' \
+  'http://172.201.121.1:8090/standalone_canary_analysis/922a1a9a-670a-471c-8307-456812b223cd' \
+  -H 'accept: */*' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "scopes": [
+    {
+      "scopeName": "exported_instance",
+      "controlScope": "baseline",
+      "controlLocation": "us-west-2",
+      "controlOffsetInMinutes": 10,
+      "experimentScope": "canary",
+      "experimentLocation": "us-west-2",
+      "startTimeIso": "2025-05-09T19:35:13Z",
+      "endTimeIso": "2025-05-09T22:35:13Z",
+      "step": 60,
+      "extendedScopeParams": {
+        "additionalProp1": "string",
+        "additionalProp2": "string",
+        "additionalProp3": "string"
+      }
+    }
+  ],
+  "thresholds": {
+    "pass": 98,
+    "marginal": 75
+  },
+  "lifetimeDurationMins": 0,
+  "beginAfterMins": 0,
+  "lookbackMins": 0,
+  "analysisIntervalMins": 0,
+  "siteLocal": {
+    "additionalProp1": {},
+    "additionalProp2": {},
+    "additionalProp3": {}
+  }
+}'
