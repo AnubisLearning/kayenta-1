@@ -1,0 +1,49 @@
+curl -X 'POST' \
+  'http://172.201.121.1:8090/canaryConfig' \
+  -H 'accept: */*' \
+  -H 'Content-Type: application/json' \
+  -d '{
+  "configVersion": "1",
+  "name": "my-canary1111",
+  "description": "my-canary1111",
+  "applications": [
+    "ad-hoc1111"
+  ],
+  "judge": {
+    "name": "NetflixACAJudge-v1.0",
+    "judgeConfigurations": {}
+  },
+  "templates": {},
+  "metrics": [
+    {
+      "name": "metric",
+      "groups": [
+        "cpu"
+      ],
+      "analysisConfigurations": {
+        "canary": {
+          "direction": "increase",
+          "critical": true,
+          "nanStrategy": "remove",
+          "effectSize": {
+            "criticalIncrease": 1,
+            "criticalDecrease": 1
+          },
+          "outliers": {
+            "strategy": "keep"
+          }
+        }
+      },
+      "scopeName": "exported_instance",
+      "query": {
+        "type": "prometheus",
+        "customInlineTemplate": "PromQL:avg_over_time(cpu_usage[30m])"
+      }
+    }
+  ],
+  "classifier": {
+    "groupWeights": {
+      "cpu": 100
+    }
+  }
+}'
