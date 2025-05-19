@@ -1,0 +1,3 @@
+curl -X 'GET' \
+  'http://172.201.121.1:8090/standalone_canary_analysis/01JVMCFJ9PDVYA9GF31C7N7T4D' \
+  -H 'accept: */*'
