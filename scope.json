@@ -1,33 +1,48 @@
 {
   "scopes": [
     {
-      "scopeName": "exported_instance",
+      "scopeName": "service",
       "controlScope": "baseline",
       "controlLocation": "us-west-2",
-      "controlOffsetInMinutes": 10,
+      "controlOffsetInMinutes": 0,
       "experimentScope": "canary",
       "experimentLocation": "us-west-2",
-      "startTimeIso": "2025-05-09T19:35:13Z",
-      "endTimeIso": "2025-05-09T22:35:13Z",
-      "step": 60,
-      "extendedScopeParams": {
-        "additionalProp1": "string",
-        "additionalProp2": "string",
-        "additionalProp3": "string"
-      }
+      "startTimeIso": "2025-06-06T20:04:13Z",
+      "endTimeIso": "2025-06-06T20:06:13Z",
+      "step": 1
     }
   ],
   "thresholds": {
-    "pass": 75,
-    "marginal": 50
+    "pass": 98,
+    "marginal": 75
   },
   "lifetimeDurationMins": 0,
   "beginAfterMins": 0,
   "lookbackMins": 0,
-  "analysisIntervalMins": 0,
-  "siteLocal": {
-    "additionalProp1": {},
-    "additionalProp2": {},
-    "additionalProp3": {}
-  }
+  "analysisIntervalMins": 0
+}
+#######################################
+
+{
+  "scopes": [
+    {
+      "scopeName": "job",
+      "controlScope": "kayenta-1",
+      "controlLocation": "us-west-2",
+      "controlOffsetInMinutes": 0,
+      "experimentScope": "kayenta-3",
+      "experimentLocation": "us-west-2",
+      "startTimeIso": "2025-06-11T12:04:13Z",
+      "endTimeIso": "2025-06-11T13:06:13Z",
+      "step": 1
+    }
+  ],
+  "thresholds": {
+    "pass": 98,
+    "marginal": 75
+  },
+  "lifetimeDurationMins": 0,
+  "beginAfterMins": 0,
+  "lookbackMins": 0,
+  "analysisIntervalMins": 0
 }

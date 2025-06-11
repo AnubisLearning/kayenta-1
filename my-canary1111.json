@@ -1,0 +1,93 @@
+{
+  "configVersion": "1",
+  "name": "my-canary1111",
+  "description": "my-canary1111",
+  "applications": [
+    "ad-hoc1111"
+  ],
+  "judge": {
+    "name": "NetflixACAJudge-v1.0",
+    "judgeConfigurations": {}
+  },
+  "templates": {},
+  "metrics": [
+    {
+      "name": "cpu",
+      "groups": [
+        "test"
+      ],
+      "analysisConfigurations": {
+        "canary": {
+          "direction": "increase",
+          "critical": true,
+          "nanStrategy": "remove",
+          "effectSize": {
+            "criticalIncrease": 1,
+            "criticalDecrease": 1
+          },
+          "outliers": {
+            "strategy": "keep"
+          }
+        }
+      },
+      "scopeName": "service",
+      "query": {
+        "type": "prometheus",
+        "customInlineTemplate": "PromQL:sum by (service) (rate(node_cpu_seconds_total{mode!=\"idle\"}[5m]))"
+      }
+    }
+  ],
+  "classifier": {
+    "groupWeights": {
+      "test": 100
+    }
+  }
+}
+sum by (service) (rate(node_cpu_seconds_total{mode!="idle", service="${scope}"}[5m]))
+##############################################
+
+{
+  "configVersion": "1",
+  "name": "my-canary1",
+  "description": "my-canary1",
+  "applications": [
+    "ad-hoc1111"
+  ],
+  "judge": {
+    "name": "NetflixACAJudge-v1.0",
+    "judgeConfigurations": {}
+  },
+  "templates": {},
+  "metrics": [
+    {
+      "name": "cpu",
+      "groups": [
+        "test"
+      ],
+      "analysisConfigurations": {
+        "canary": {
+          "direction": "either",
+          "critical": true,
+          "nanStrategy": "remove",
+          "effectSize": {
+            "criticalDecrease": 0.95,
+            "criticalIncrease": 1.05
+          },
+          "outliers": {
+            "strategy": "keep"
+          }
+        }
+      },
+      "scopeName": "job",
+      "query": {
+        "type": "prometheus",
+        "customInlineTemplate": "PromQL:avg(node_memory_MemFree_bytes{job=\"${scope}\"})"
+      }
+    }
+  ],
+  "classifier": {
+    "groupWeights": {
+      "test": 100
+    }
+  }
+}
