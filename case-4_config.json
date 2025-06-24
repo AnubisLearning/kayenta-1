@@ -1,0 +1,97 @@
+{
+  "configVersion": "1",
+  "name": "my-canary11122",
+  "description": "my-canary11122",
+  "applications": [
+    "ad-hoc1111"
+  ],
+  "judge": {
+    "name": "NetflixACAJudge-v1.0",
+    "judgeConfigurations": {}
+  },
+  "templates": {},
+  "metrics": [
+    {
+      "name": "cpu",
+      "groups": [
+        "test-cpu"
+      ],
+      "analysisConfigurations": {
+        "canary": {
+          "direction": "increase",
+          "critical": false,
+          "nanStrategy": "remove",
+          "effectSize": {
+            "criticalDecrease": 0.95,
+            "criticalIncrease": 1.05
+          },
+          "outliers": {
+            "strategy": "keep"
+          }
+        }
+      },
+      "scopeName": "service",
+      "query": {
+        "type": "prometheus",
+        "customInlineTemplate": "PromQL:max(irate(node_cpu_seconds_total{service=\"${scope}\"}[1m]))"
+      }
+    },
+	{
+      "name": "memory",
+      "groups": [
+        "test-memory"
+      ],
+      "analysisConfigurations": {
+        "canary": {
+          "direction": "decrease",
+          "critical": false,
+          "nanStrategy": "remove",
+          "effectSize": {
+            "criticalDecrease": 0.95,
+            "criticalIncrease": 1.05
+          },
+          "outliers": {
+            "strategy": "keep"
+          }
+        }
+      },
+      "scopeName": "service",
+      "query": {
+        "type": "prometheus",
+        "customInlineTemplate": "PromQL:sum(node_memory_Active_bytes{service=\"${scope}\"})"
+      }
+    }
+  ],
+  "classifier": {
+    "groupWeights": {
+      "test-cpu": 50,
+      "test-memory": 50
+    }
+  }
+}
+
+####################
+
+{
+  "scopes": [
+    {
+      "scopeName": "service",
+      "controlScope": "baseline",
+      "controlLocation": "us-west-2",
+      "controlOffsetInMinutes": 0,
+      "experimentScope": "canary",
+      "experimentLocation": "us-west-2",
+      "startTimeIso": "2025-06-15T20:37:13Z",
+      "endTimeIso": "2025-06-15T21:40:13Z",
+      "step": 1
+    }
+  ],
+  "thresholds": {
+    "pass": 98,
+    "marginal": 40
+  },
+  "lifetimeDurationMins": 0,
+  "beginAfterMins": 0,
+  "lookbackMins": 0,
+  "analysisIntervalMins": 0
+}
